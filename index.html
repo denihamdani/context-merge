@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context Studio</title>
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/panels.css">
+</head>
+
+<body>
+
+    <!-- ═══════════════ HEADER ═══════════════ -->
+    <header id="app-header">
+        <div class="header-left">
+            <span class="logo">🧠</span>
+            <h1 class="app-title">Context Studio</h1>
+            <span class="app-version">v0.1.0</span>
+        </div>
+        <div class="header-right">
+            <button class="btn btn-ghost" id="btn-export" title="Export Data (Ctrl+Shift+E)">📤 Export</button>
+            <button class="btn btn-ghost" id="btn-import" title="Import Data (Ctrl+Shift+I)">📂 Import</button>
+            <button class="btn btn-ghost" id="btn-shortcuts" title="Keyboard Shortcuts (Ctrl+/)">⌨️</button>
+        </div>
+        <input type="file" id="file-import" accept=".json" hidden>
+    </header>
+
+    <!-- ═══════════════ SIDEBAR ═══════════════ -->
+    <aside id="sidebar">
+        <div class="sidebar-search">
+            <input type="text" id="search-input" placeholder="🔍  Search..." />
+        </div>
+
+        <!-- ROLES -->
+        <section class="sidebar-section" id="section-roles">
+            <div class="section-header">
+                <h2>📋 Roles <span class="count" id="role-count">0</span></h2>
+                <button class="btn btn-sm btn-primary" id="btn-add-role" title="New Role (Ctrl+N)">+ New</button>
+            </div>
+            <ul class="item-list" id="role-list"></ul>
+        </section>
+
+        <!-- KONTEKS -->
+        <section class="sidebar-section" id="section-contexts">
+            <div class="section-header">
+                <h2>📄 Konteks <span class="count" id="ctx-count">0</span></h2>
+                <button class="btn btn-sm btn-primary" id="btn-add-ctx" title="New Konteks (Ctrl+K)">+ New</button>
+            </div>
+            <ul class="item-list" id="ctx-list"></ul>
+        </section>
+
+        <!-- PRESETS -->
+        <section class="sidebar-section" id="section-presets">
+            <div class="section-header">
+                <h2>📌 Presets <span class="count" id="preset-count">0</span></h2>
+            </div>
+            <ul class="item-list" id="preset-list"></ul>
+        </section>
+    </aside>
+
+    <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
+    <main id="main-content">
+
+        <!-- MERGE WORKSPACE -->
+        <section class="panel merge-panel" id="merge-panel">
+            <div class="panel-header">
+                <h2>🔀 Merge Workspace</h2>
+                <div class="merge-controls">
+                    <select id="template-select" class="select-input"></select>
+                    <button class="btn btn-sm btn-secondary" id="btn-save-preset" title="Save Preset">💾 Preset</button>
+                </div>
+            </div>
+
+            <!-- Merge Item List -->
+            <div class="merge-items-wrapper">
+                <ul class="merge-items" id="merge-items"></ul>
+                <div class="merge-empty" id="merge-empty">
+                    <p>📭 No items in merge</p>
+                    <p class="hint">Select items from sidebar → right-click → "Add to Merge"</p>
+                    <p class="hint">or click items with <kbd>Ctrl+Shift+M</kbd></p>
+                </div>
+            </div>
+
+            <!-- Token Stats Bar -->
+            <div class="token-bar" id="token-bar">
+                <div class="token-info">
+                    <span class="token-count" id="token-count">~0 tokens</span>
+                    <span class="char-count" id="char-count">0 chars</span>
+                    <span class="section-count" id="section-count">0 sections</span>
+                </div>
+                <div class="token-progress">
+                    <div class="token-fill" id="token-fill" style="width: 0%"></div>
+                </div>
+                <div class="token-label" id="token-label">🟢 Safe</div>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="action-bar">
+                <button class="btn btn-primary btn-copy" id="btn-copy-all" title="Copy All (Ctrl+Shift+C)">
+                    📋 Copy All
+                </button>
+                <button class="btn btn-secondary" id="btn-download-md" title="Download .md (Ctrl+Shift+D)">⬇️
+                    .md</button>
+                <button class="btn btn-secondary" id="btn-clear-merge" title="Clear All">🧹 Clear</button>
+            </div>
+        </section>
+
+        <!-- PREVIEW PANEL -->
+        <section class="panel preview-panel" id="preview-panel">
+            <div class="panel-header">
+                <h2>👁 Output Preview</h2>
+                <div class="preview-controls">
+                    <button class="btn btn-sm btn-ghost active" id="btn-raw">Raw</button>
+                    <button class="btn btn-sm btn-ghost" id="btn-rendered">Rendered</button>
+                </div>
+            </div>
+            <div class="preview-content" id="preview-raw">
+                <pre id="preview-text">Select items to see merged output...</pre>
+            </div>
+            <div class="preview-content hidden" id="preview-rendered"></div>
+        </section>
+
+    </main>
+
+    <!-- ═══════════════ STATUS BAR ═══════════════ -->
+    <footer id="status-bar">
+        <div class="status-left">
+            <span id="stat-roles">0 Roles</span>
+            <span class="separator">·</span>
+            <span id="stat-ctxs">0 Konteks</span>
+            <span class="separator">·</span>
+            <span id="stat-presets">0 Presets</span>
+        </div>
+        <div class="status-right">
+            <span class="save-indicator" id="save-indicator">💾 Saved</span>
+        </div>
+    </footer>
+
+    <!-- ═══════════════ MODAL OVERLAY ═══════════════ -->
+    <div class="modal-overlay hidden" id="modal-overlay">
+        <!-- CREATE / EDIT MODAL -->
+        <div class="modal hidden" id="modal-item">
+            <div class="modal-header">
+                <h3 id="modal-item-title">Create Role</h3>
+                <button class="btn btn-icon btn-close" id="modal-item-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Title</label>
+                <input type="text" class="form-input" id="item-title" placeholder="e.g. Go Dev Expert" maxlength="100">
+                <label class="form-label">Emoji</label>
+                <input type="text" class="form-input form-input-emoji" id="item-emoji" placeholder="🎭" maxlength="4">
+                <label class="form-label">Content (Markdown)</label>
+                <textarea class="form-textarea" id="item-content"
+                    placeholder="You are an expert Go developer with 10+ years..." rows="10"></textarea>
+                <div class="form-stats" id="item-stats">
+                    <span id="item-char-count">0 chars</span>
+                    <span id="item-word-count">0 words</span>
+                    <span id="item-token-count">~0 tokens</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-item-cancel">Batal</button>
+                <button class="btn btn-primary" id="modal-item-save">Simpan <kbd>Ctrl+S</kbd></button>
+            </div>
+        </div>
+
+        <!-- DELETE CONFIRM MODAL -->
+        <div class="modal modal-danger hidden" id="modal-delete">
+            <div class="modal-header">
+                <h3>⚠️ Delete Item</h3>
+                <button class="btn btn-icon btn-close" id="modal-delete-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <p id="delete-message">Yakin ingin menghapus item ini?</p>
+                <p class="warning-text">⚠️ Tindakan ini tidak bisa dibatalkan.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-delete-cancel">Batal</button>
+                <button class="btn btn-danger" id="modal-delete-confirm">🗑️ Delete</button>
+            </div>
+        </div>
+
+        <!-- IMPORT PREVIEW MODAL -->
+        <div class="modal hidden" id="modal-import">
+            <div class="modal-header">
+                <h3>📥 Import Data</h3>
+                <button class="btn btn-icon btn-close" id="modal-import-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="import-info" id="import-info"></div>
+                <div class="import-mode">
+                    <label class="form-label">Import mode:</label>
+                    <label class="radio-label">
+                        <input type="radio" name="import-mode" value="merge" checked>
+                        <span>Merge — keep existing, add new</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="import-mode" value="replace">
+                        <span>Replace — delete all current data</span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-import-cancel">Batal</button>
+                <button class="btn btn-primary" id="modal-import-confirm">📥 Import</button>
+            </div>
+        </div>
+
+        <!-- SHORTCUTS OVERLAY -->
+        <div class="modal modal-shortcuts hidden" id="modal-shortcuts">
+            <div class="modal-header">
+                <h3>⌨️ Keyboard Shortcuts</h3>
+                <button class="btn btn-icon btn-close" id="modal-shortcuts-close">✕</button>
+            </div>
+            <div class="modal-body shortcuts-body">
+                <h4>Global</h4>
+                <div class="shortcut-row"><span>Create Role</span><kbd>Ctrl</kbd>+<kbd>N</kbd></div>
+                <div class="shortcut-row"><span>New Konteks</span><kbd>Ctrl</kbd>+<kbd>K</kbd></div>
+                <div class="shortcut-row"><span>Copy All (Merge)</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>
+                </div>
+                <div class="shortcut-row"><span>Export</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></div>
+                <div class="shortcut-row"><span>Import</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></div>
+                <div class="shortcut-row"><span>Download .md</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd></div>
+                <div class="shortcut-row"><span>Search</span><kbd>Ctrl</kbd>+<kbd>F</kbd></div>
+                <div class="shortcut-row"><span>Toggle Preview</span><kbd>Ctrl</kbd>+<kbd>P</kbd></div>
+                <div class="shortcut-row"><span>Help</span><kbd>Ctrl</kbd>+<kbd>/</kbd></div>
+                <div class="shortcut-row"><span>Close / Cancel</span><kbd>Esc</kbd></div>
+                <h4>Navigation</h4>
+                <div class="shortcut-row"><span>Navigate items</span><kbd>↑</kbd><kbd>↓</kbd></div>
+                <div class="shortcut-row"><span>Open / Edit</span><kbd>Enter</kbd></div>
+                <div class="shortcut-row"><span>Delete item</span><kbd>Del</kbd></div>
+                <div class="shortcut-row"><span>Copy item</span><kbd>Ctrl</kbd>+<kbd>Enter</kbd></div>
+                <div class="shortcut-row"><span>Add to Merge</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></div>
+                <h4>Merge Panel</h4>
+                <div class="shortcut-row"><span>Move up</span><kbd>Alt</kbd>+<kbd>↑</kbd></div>
+                <div class="shortcut-row"><span>Move down</span><kbd>Alt</kbd>+<kbd>↓</kbd></div>
+                <h4>Edit Modal</h4>
+                <div class="shortcut-row"><span>Save</span><kbd>Ctrl</kbd>+<kbd>S</kbd></div>
+            </div>
+        </div>
+
+        <!-- PRESET SAVE MODAL -->
+        <div class="modal hidden" id="modal-preset">
+            <div class="modal-header">
+                <h3>💾 Save Preset</h3>
+                <button class="btn btn-icon btn-close" id="modal-preset-close">✕</button>
+            </div>
+            <div class="modal-body">
+                <label class="form-label">Preset Name</label>
+                <input type="text" class="form-input" id="preset-title" placeholder="e.g. Go Backend Setup">
+                <label class="form-label">Emoji</label>
+                <input type="text" class="form-input form-input-emoji" id="preset-emoji" placeholder="📌" maxlength="4">
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="modal-preset-cancel">Batal</button>
+                <button class="btn btn-primary" id="modal-preset-save">💾 Save</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══════════════ CONTEXT MENU ═══════════════ -->
+    <div class="context-menu hidden" id="context-menu"></div>
+
+    <!-- ═══════════════ TOAST CONTAINER ═══════════════ -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ═══════════════ DRAG & DROP OVERLAY ═══════════════ -->
+    <div class="drop-overlay hidden" id="drop-overlay">
+        <div class="drop-zone">
+            <div class="drop-icon">📥</div>
+            <p>Drop to Import</p>
+            <p class="hint">.json → Backup &nbsp;|&nbsp; .md → Konteks</p>
+        </div>
+    </div>
+
+    <!-- ═══════════════ SCRIPTS ═══════════════ -->
+    <script src="js/core.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/repository.js"></script>
+    <script src="js/merge.js"></script>
+    <script src="js/ui-sidebar.js"></script>
+    <script src="js/ui-merge.js"></script>
+    <script src="js/ui-preview.js"></script>
+    <script src="js/ui-modal.js"></script>
+    <script src="js/ui-shortcuts.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+/* ============================================
+   App Layout Grid
+   ============================================ */
+
+body {
+    display: grid;
+    grid-template-columns: var(--w-sidebar) 1fr;
+    grid-template-rows: var(--h-header) 1fr var(--h-status);
+    height: 100vh;
+    overflow: hidden;
+}
+
+#app-header {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+    background: var(--bg-base);
+    border-bottom: 1px solid var(--border-default);
+    z-index: 10;
+}
+
+#sidebar {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-default);
+    overflow: hidden;
+}
+
+#main-content {
+    grid-column: 2;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-4);
+    overflow: hidden;
+}
+
+#status-bar {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-default);
+    font-size: var(--fs-caption);
+    color: var(--text-tertiary);
+}
+
+/* Panels: Merge takes 60%, Preview takes 40% */
+.merge-panel {
+    flex: 3;
+    min-height: 0;
+}
+
+.preview-panel {
+    flex: 2;
+    min-height: 0;
+}
+
+/* Responsive */
+@media (min-width: 1920px) {
+    :root {
+        --w-sidebar: 300px;
+    }
+}
+
+@media (max-width: 1280px) {
+    :root {
+        --w-sidebar: 240px;
+    }
+}
+
+@media (max-width: 1024px) {
+    :root {
+        --w-sidebar: 220px;
+    }
+
+    #main-content {
+        gap: var(--space-2);
+        padding: var(--space-2);
+    }
+}

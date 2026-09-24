@@ -1,0 +1,110 @@
+/* ============================================
+   Reset, Typography, Base Elements
+   ============================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-body-md);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-normal);
+    color: var(--text-primary);
+    background-color: var(--bg-base);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-tight);
+    color: var(--text-primary);
+}
+
+h1 {
+    font-size: var(--fs-heading-xl);
+}
+
+h2 {
+    font-size: var(--fs-heading-md);
+}
+
+h3 {
+    font-size: var(--fs-heading-sm);
+}
+
+h4 {
+    font-size: var(--fs-body-sm);
+    color: var(--text-secondary);
+}
+
+a {
+    color: var(--text-link);
+    text-decoration: none;
+}
+
+code,
+pre,
+kbd {
+    font-family: var(--font-mono);
+}
+
+kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: var(--fs-badge);
+    font-weight: var(--fw-semibold);
+    color: var(--text-secondary);
+    background: var(--bg-elevated);
+    border: 1px solid #444;
+    border-bottom-width: 2px;
+    border-radius: 3px;
+    min-width: 20px;
+    text-align: center;
+}
+
+::selection {
+    background: var(--blue-300);
+    color: var(--text-primary);
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-default);
+    border-radius: var(--r-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-disabled);
+}
+
+:focus-visible {
+    outline: 2px solid var(--yellow-500);
+    outline-offset: 2px;
+}
+
+.hidden {
+    display: none !important;
+}

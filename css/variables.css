@@ -1,0 +1,111 @@
+/* ============================================
+   CONTEXT STUDIO — Design Tokens
+   ============================================ */
+
+:root {
+    /* ── BASE ── */
+    --bg-base: #111111;
+    --bg-surface: #1A1A1A;
+    --bg-elevated: #222222;
+    --bg-overlay: rgba(0, 0, 0, 0.8);
+    --bg-input: #0D0D0D;
+    --bg-hover: #2A2A2A;
+    --bg-active: #333333;
+    --bg-selected: rgba(0, 128, 255, 0.12);
+
+    /* ── BORDERS ── */
+    --border-default: #333333;
+    --border-subtle: #222222;
+    --border-focus: #0080FF;
+    --border-error: #CE0000;
+    --border-success: #78FF78;
+
+    /* ── TEXT ── */
+    --text-primary: #FFFFFF;
+    --text-secondary: #AAAAAA;
+    --text-tertiary: #666666;
+    --text-disabled: #444444;
+    --text-link: #0080FF;
+
+    /* ── BLUE (Primary/Action) ── */
+    --blue-50: rgba(0, 128, 255, 0.04);
+    --blue-100: rgba(0, 128, 255, 0.08);
+    --blue-200: rgba(0, 128, 255, 0.15);
+    --blue-300: rgba(0, 128, 255, 0.25);
+    --blue-500: #0080FF;
+    --blue-600: #0066CC;
+    --blue-700: #004C99;
+
+    /* ── YELLOW (Highlight/Warning) ── */
+    --yellow-50: rgba(255, 204, 0, 0.04);
+    --yellow-100: rgba(255, 204, 0, 0.08);
+    --yellow-200: rgba(255, 204, 0, 0.15);
+    --yellow-300: rgba(255, 204, 0, 0.25);
+    --yellow-500: #FFCC00;
+    --yellow-600: #D4A800;
+
+    /* ── RED (Error/Destructive) ── */
+    --red-50: rgba(206, 0, 0, 0.04);
+    --red-100: rgba(206, 0, 0, 0.08);
+    --red-200: rgba(206, 0, 0, 0.15);
+    --red-500: #CE0000;
+    --red-600: #A30000;
+
+    /* ── GREEN (Success/Confirm) ── */
+    --green-50: rgba(120, 255, 120, 0.04);
+    --green-100: rgba(120, 255, 120, 0.08);
+    --green-200: rgba(120, 255, 120, 0.15);
+    --green-500: #78FF78;
+    --green-600: #5CC85C;
+
+    /* ── TYPOGRAPHY ── */
+    --font-sans: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'Consolas', 'Fira Code', 'Cascadia', 'JetBrains Mono', monospace;
+    --fs-heading-xl: 24px;
+    --fs-heading-lg: 20px;
+    --fs-heading-md: 16px;
+    --fs-heading-sm: 14px;
+    --fs-body-md: 14px;
+    --fs-body-sm: 13px;
+    --fs-caption: 12px;
+    --fs-code: 13px;
+    --fs-badge: 11px;
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+    --fw-bold: 700;
+    --lh-tight: 1.2;
+    --lh-normal: 1.5;
+    --lh-relaxed: 1.6;
+
+    /* ── SPACING ── */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+
+    /* ── SIZES ── */
+    --h-input: 36px;
+    --h-button: 36px;
+    --h-button-sm: 28px;
+    --h-header: 48px;
+    --h-status: 32px;
+    --w-sidebar: 280px;
+
+    /* ── RADIUS ── */
+    --r-sm: 4px;
+    --r-md: 6px;
+    --r-lg: 10px;
+    --r-full: 9999px;
+
+    /* ── SHADOWS ── */
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+
+    /* ── TRANSITIONS ── */
+    --t-fast: 100ms ease;
+    --t-normal: 200ms ease;
+}
