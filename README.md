@@ -1,5 +1,3 @@
-<img width="1863" height="945" alt="Screenshot_20260926_114917" src="https://github.com/user-attachments/assets/fb550d58-bfe3-489e-bebe-516f03bfe8dc" /># Context Merge
-
 **Gabungkan konteks AI. Satu paste. Nol keribetan.**
 Aplikasi web desktop offline-first untuk vibe coder yang pakai AI gratis.
 
