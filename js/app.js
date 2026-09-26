@@ -1,6 +1,11 @@
-/* ============================================
-   App: Entry Point & Initialization
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+
+    ============================================
+    App: Entry Point & Initialization
+    ============================================ 
+*/
 
 CS.App = {
     async init() {
@@ -37,7 +42,7 @@ CS.App = {
         CS.MergeUI.render();
         CS.MergeUI.triggerMerge();
 
-        console.log('🧠 Context Studio v0.1.0 — Ready!');
+        console.log('🧠 Context Merger v0.1.0 — Ready!');
     },
 };
 

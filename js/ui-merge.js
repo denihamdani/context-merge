@@ -1,6 +1,11 @@
-/* ============================================
-   UI: Merge Workspace Panel
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+
+    ============================================
+    UI: Merge Workspace Panel
+    ============================================ 
+*/
 
 CS.MergeUI = {
     items: [], // [{ type, refId, selected, order }]

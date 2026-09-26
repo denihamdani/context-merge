@@ -1,10 +1,15 @@
-/* ============================================
-   Merge: Engine + Templates + Token Counter
-   ────────────────────────────────────────────
-   ⚡ Token estimation: Level 3 Hybrid
-   🔀 Merge pipeline: 7 steps
-   ────────────────────────────────────────────
-   ============================================ */
+/*
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+
+    ============================================
+    Merge: Engine + Templates + Token Counter
+    ────────────────────────────────────────────
+    ⚡ Token estimation: Level 3 Hybrid
+    🔀 Merge pipeline: 7 steps
+    ────────────────────────────────────────────
+    ============================================ 
+*/
 
 /* ── TOKEN ESTIMATION ── */
 CS.Token = {

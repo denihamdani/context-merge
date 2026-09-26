@@ -1,6 +1,11 @@
-/* ============================================
-   Core: Constants + EventBus + ID Generator
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+
+    ============================================
+    Core: Constants + EventBus + ID Generator
+    ============================================ 
+*/
 
 window.CS = window.CS || {};
 

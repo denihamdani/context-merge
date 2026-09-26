@@ -1,6 +1,11 @@
-/* ============================================
-   Storage: LocalStorage Adapter + Registry
-   ============================================ */
+/*
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+    
+    ============================================
+    Storage: LocalStorage Adapter + Registry
+    ============================================ 
+*/
 
 /* ── LocalStorage Adapter ── */
 CS.LocalStorageAdapter = class {

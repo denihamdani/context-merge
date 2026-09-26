@@ -1,6 +1,11 @@
-/* ============================================
-   UI: Keyboard Shortcuts
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+
+    ============================================
+    UI: Keyboard Shortcuts
+    ============================================ 
+*/
 
 CS.ShortcutsUI = {
     init() {

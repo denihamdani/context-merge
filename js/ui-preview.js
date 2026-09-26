@@ -1,6 +1,11 @@
-/* ============================================
-   UI: Preview Panel (Raw + Rendered)
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+    
+    ============================================
+    UI: Preview Panel (Raw + Rendered)
+    ============================================ 
+*/
 
 CS.PreviewUI = {
     mode: 'raw', // 'raw' | 'rendered'

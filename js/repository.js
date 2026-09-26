@@ -1,6 +1,11 @@
-/* ============================================
-   Repository: Role + Context + Preset + Template
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+    
+    ============================================
+    Repository: Role + Context + Preset + Template
+    ============================================ 
+*/
 
 CS.RoleRepo = (function () {
     const st = () => CS.Storage.getAdapter();

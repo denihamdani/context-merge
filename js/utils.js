@@ -1,6 +1,12 @@
-/* ============================================
-   Utils: Export + Import + Clipboard
-   ============================================ */
+
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+
+    ============================================
+    Utils: Export + Import + Clipboard
+    ============================================ 
+*/
 
 /* ── CLIPBOARD ── */
 CS.Clipboard = {

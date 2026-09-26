@@ -1,6 +1,11 @@
-/* ============================================
-   UI: Modals + Toast + Context Menu
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+    
+    ============================================
+    UI: Modals + Toast + Context Menu
+    ============================================ 
+*/
 
 /* ── TOAST ── */
 CS.ToastUI = {

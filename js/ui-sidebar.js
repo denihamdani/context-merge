@@ -1,12 +1,17 @@
-/* ============================================
-   UI: Sidebar — Roles + Context + Presets
-   ============================================ */
+/* 
+    # Copyright (c) 2026 Deni Hamdani
+    # SPDX-License-Identifier: MIT
+
+    ============================================
+    UI: Sidebar — Roles + Context + Presets
+    ============================================ 
+*/
 
 CS.SidebarUI = {
     selectedId: null,
     selectedType: null, // 'role' | 'context' | 'preset'
     filterText: '',
-    _isRendering: false, // ⬅ CHANGED: re-entrancy guard
+    _isRendering: false, // re-entrancy guard
 
     init() {
         this.bindEvents();
