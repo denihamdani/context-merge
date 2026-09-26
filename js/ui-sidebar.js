@@ -1,5 +1,5 @@
 /* ============================================
-   UI: Sidebar — Roles + Konteks + Presets
+   UI: Sidebar — Roles + Context + Presets
    ============================================ */
 
 CS.SidebarUI = {
@@ -52,7 +52,7 @@ CS.SidebarUI = {
 
             // Update status bar
             document.getElementById('stat-roles').textContent = `${roles.length} Roles`;
-            document.getElementById('stat-ctxs').textContent = `${contexts.length} Konteks`;
+            document.getElementById('stat-ctxs').textContent = `${contexts.length} Context`;
             document.getElementById('stat-presets').textContent = `${presets.length} Presets`;
 
             CS.EventBus.emit('data:changed');
@@ -100,7 +100,7 @@ CS.SidebarUI = {
 
         if (items.length === 0) {
             ul.innerHTML = `<li class="empty-state">
-        <p>${type === 'role' ? '📭 No roles yet' : '📭 No konteks yet'}</p>
+        <p>${type === 'role' ? '📭 No roles yet' : '📭 No Context yet'}</p>
         <p class="hint">${type === 'role' ? 'Create your first role!' : 'Add your first context!'}</p>
       </li>`;
             return;

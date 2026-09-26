@@ -95,7 +95,7 @@ CS.ModalUI = {
         this.currentType = type;
         this.currentId = null;
 
-        document.getElementById('modal-item-title').textContent = `Create ${type === 'role' ? 'Role' : 'Konteks'}`;
+        document.getElementById('modal-item-title').textContent = `Create ${type === 'role' ? 'Role' : 'Context'}`;
         document.getElementById('item-title').value = '';
         document.getElementById('item-emoji').value = type === 'role' ? '🎭' : '📄';
         document.getElementById('item-content').value = '';
@@ -113,7 +113,7 @@ CS.ModalUI = {
         const item = await repo.findById(id);
         if (!item) return;
 
-        document.getElementById('modal-item-title').textContent = `Edit ${type === 'role' ? 'Role' : 'Konteks'}`;
+        document.getElementById('modal-item-title').textContent = `Edit ${type === 'role' ? 'Role' : 'Context'}`;
         document.getElementById('item-title').value = item.title || '';
         document.getElementById('item-emoji').value = item.emoji || '';
         document.getElementById('item-content').value = item.content || '';
@@ -157,7 +157,7 @@ CS.ModalUI = {
         const presets = data.presets?.length || 0;
 
         document.getElementById('import-info').innerHTML = `
-      📦 Data: ${roles} Roles · ${ctxs} Konteks · ${presets} Presets<br>
+      📦 Data: ${roles} Roles · ${ctxs} Context · ${presets} Presets<br>
       📅 Exported: ${data.meta?.exportedAt || 'Unknown'}<br>
       🏷️ Version: ${data.meta?.version || 'Unknown'}
     `;

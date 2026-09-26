@@ -42,7 +42,7 @@ CS.ContextRepo = (function () {
             const now = new Date().toISOString();
             const ctx = {
                 id: CS.generateId('c'),
-                title: data.title || 'Untitled Konteks',
+                title: data.title || 'Untitled Context',
                 content: data.content || '',
                 emoji: data.emoji || CS.CONST.DEFAULT_EMOJI.context,
                 sortOrder: await st().count('contexts'),

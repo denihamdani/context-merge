@@ -520,6 +520,7 @@
 }
 
 .shortcut-row span {
+    flex-grow: 2;
     color: var(--text-primary);
 }
 

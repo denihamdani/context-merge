@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Context Studio</title>
+    <title>Context Merger</title>
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/layout.css">
@@ -18,12 +18,12 @@
     <header id="app-header">
         <div class="header-left">
             <span class="logo">🧠</span>
-            <h1 class="app-title">Context Studio</h1>
+            <h1 class="app-title">Context Merger</h1>
             <span class="app-version">v0.1.0</span>
         </div>
         <div class="header-right">
             <button class="btn btn-ghost" id="btn-export" title="Export Data (Ctrl+Shift+E)">📤 Export</button>
-            <button class="btn btn-ghost" id="btn-import" title="Import Data (Ctrl+Shift+I)">📂 Import</button>
+            <button class="btn btn-ghost" id="btn-import" title="Import Data (Alt+I)">📂 Import</button>
             <button class="btn btn-ghost" id="btn-shortcuts" title="Keyboard Shortcuts (Ctrl+/)">⌨️</button>
         </div>
         <input type="file" id="file-import" accept=".json" hidden>
@@ -39,16 +39,16 @@
         <section class="sidebar-section" id="section-roles">
             <div class="section-header">
                 <h2>📋 Roles <span class="count" id="role-count">0</span></h2>
-                <button class="btn btn-sm btn-primary" id="btn-add-role" title="New Role (Ctrl+N)">+ New</button>
+                <button class="btn btn-sm btn-primary" id="btn-add-role" title="New Role (Alt+N)">+ New</button>
             </div>
             <ul class="item-list" id="role-list"></ul>
         </section>
 
-        <!-- KONTEKS -->
+        <!-- Context -->
         <section class="sidebar-section" id="section-contexts">
             <div class="section-header">
-                <h2>📄 Konteks <span class="count" id="ctx-count">0</span></h2>
-                <button class="btn btn-sm btn-primary" id="btn-add-ctx" title="New Konteks (Ctrl+K)">+ New</button>
+                <h2>📄 Context <span class="count" id="ctx-count">0</span></h2>
+                <button class="btn btn-sm btn-primary" id="btn-add-ctx" title="New Context (Alt+K)">+ New</button>
             </div>
             <ul class="item-list" id="ctx-list"></ul>
         </section>
@@ -100,10 +100,10 @@
 
             <!-- Action Bar -->
             <div class="action-bar">
-                <button class="btn btn-primary btn-copy" id="btn-copy-all" title="Copy All (Ctrl+Shift+C)">
+                <button class="btn btn-primary btn-copy" id="btn-copy-all" title="Copy All (Alt+C)">
                     📋 Copy All
                 </button>
-                <button class="btn btn-secondary" id="btn-download-md" title="Download .md (Ctrl+Shift+D)">⬇️
+                <button class="btn btn-secondary" id="btn-download-md" title="Download .md (Alt+D)">⬇️
                     .md</button>
                 <button class="btn btn-secondary" id="btn-clear-merge" title="Clear All">🧹 Clear</button>
             </div>
@@ -131,7 +131,7 @@
         <div class="status-left">
             <span id="stat-roles">0 Roles</span>
             <span class="separator">·</span>
-            <span id="stat-ctxs">0 Konteks</span>
+            <span id="stat-ctxs">0 Context</span>
             <span class="separator">·</span>
             <span id="stat-presets">0 Presets</span>
         </div>
@@ -218,13 +218,13 @@
             </div>
             <div class="modal-body shortcuts-body">
                 <h4>Global</h4>
-                <div class="shortcut-row"><span>Create Role</span><kbd>Ctrl</kbd>+<kbd>N</kbd></div>
-                <div class="shortcut-row"><span>New Konteks</span><kbd>Ctrl</kbd>+<kbd>K</kbd></div>
-                <div class="shortcut-row"><span>Copy All (Merge)</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>C</kbd>
+                <div class="shortcut-row"><span>Create Role</span><kbd>Alt</kbd>+<kbd>N</kbd></div>
+                <div class="shortcut-row"><span>New Context</span><kbd>Alt</kbd>+<kbd>K</kbd></div>
+                <div class="shortcut-row"><span>Copy All (Merge)</span><kbd>Alt</kbd>+<kbd>C</kbd>
                 </div>
                 <div class="shortcut-row"><span>Export</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></div>
-                <div class="shortcut-row"><span>Import</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd></div>
-                <div class="shortcut-row"><span>Download .md</span><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd></div>
+                <div class="shortcut-row"><span>Import</span><kbd>Alt</kbd>+<kbd>I</kbd></div>
+                <div class="shortcut-row"><span>Download .md</span><kbd>Alt</kbd>+<kbd>D</kbd></div>
                 <div class="shortcut-row"><span>Search</span><kbd>Ctrl</kbd>+<kbd>F</kbd></div>
                 <div class="shortcut-row"><span>Toggle Preview</span><kbd>Ctrl</kbd>+<kbd>P</kbd></div>
                 <div class="shortcut-row"><span>Help</span><kbd>Ctrl</kbd>+<kbd>/</kbd></div>
@@ -274,7 +274,7 @@
         <div class="drop-zone">
             <div class="drop-icon">📥</div>
             <p>Drop to Import</p>
-            <p class="hint">.json → Backup &nbsp;|&nbsp; .md → Konteks</p>
+            <p class="hint">.json → Backup &nbsp;|&nbsp; .md → Context</p>
         </div>
     </div>
 

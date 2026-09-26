@@ -51,11 +51,14 @@ CS.LocalStorageAdapter = class {
         let items = this._read(entity);
         if (opts?.orderBy) {
             const { field, direction = 'asc' } = opts.orderBy;
-            items.sort((a, b) => {
-                const va = a[field] ?? 0;
-                const vb = b[field] ?? 0;
-                return direction === 'asc' ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
-            });
+            if (Array.isArray(items) && items.length > 0) {
+                items.sort((a, b) => {
+                    const va = a[field] ?? 0;
+                    const vb = b[field] ?? 0;
+                    return direction === 'asc' ? (va > vb ? 1 : -1) : (va < vb ? 1 : -1);
+                });
+            }
+
         }
         return items;
     }

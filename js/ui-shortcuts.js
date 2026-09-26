@@ -21,6 +21,7 @@ CS.ShortcutsUI = {
         const ctrl = e.ctrlKey || e.metaKey;
         const shift = e.shiftKey;
         const key = e.key;
+        const alt = e.altKey;
 
         // ── ALWAYS ACTIVE (even while typing) ──
 
@@ -47,22 +48,22 @@ CS.ShortcutsUI = {
 
         // ── GLOBAL SHORTCUTS ──
 
-        // Ctrl+N: New Role
-        if (ctrl && !shift && key === 'n') {
+        // Alt+N: New Role
+        if (alt && !shift && key === 'n') {
             e.preventDefault();
             CS.ModalUI.openCreate('role');
             return;
         }
 
-        // Ctrl+K: New Konteks
-        if (ctrl && !shift && key === 'k') {
+        // Alt+K: New Context
+        if (alt && !shift && key === 'k') {
             e.preventDefault();
             CS.ModalUI.openCreate('context');
             return;
         }
 
-        // Ctrl+Shift+C: Copy All
-        if (ctrl && shift && key.toLowerCase() === 'c') {
+        // Alt+C: Copy All
+        if (alt && key.toLowerCase() === 'c') {
             e.preventDefault();
             CS.MergeUI.copyAll();
             return;
@@ -75,15 +76,15 @@ CS.ShortcutsUI = {
             return;
         }
 
-        // Ctrl+Shift+I: Import
-        if (ctrl && shift && key.toLowerCase() === 'i') {
+        // Alt+I: Import
+        if (alt && key.toLowerCase() === 'i') {
             e.preventDefault();
             document.getElementById('file-import').click();
             return;
         }
 
-        // Ctrl+Shift+D: Download .md
-        if (ctrl && shift && key.toLowerCase() === 'd') {
+        // Alt+D: Download .md
+        if (alt && key.toLowerCase() === 'd') {
             e.preventDefault();
             CS.MergeUI.downloadMd();
             return;
