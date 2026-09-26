@@ -1,4 +1,4 @@
-# Context Merge
+<img width="1863" height="945" alt="Screenshot_20260926_114917" src="https://github.com/user-attachments/assets/fb550d58-bfe3-489e-bebe-516f03bfe8dc" /># Context Merge
 
 **Gabungkan konteks AI. Satu paste. Nol keribetan.**
 Aplikasi web desktop offline-first untuk vibe coder yang pakai AI gratis.
@@ -8,6 +8,9 @@ Aplikasi web desktop offline-first untuk vibe coder yang pakai AI gratis.
 ![Status](https://img.shields.io/badge/status-v0.1.0-blue) ![Lisensi](https://img.shields.io/badge/license-MIT-green) ![Dependensi](https://img.shields.io/badge/dependencies-0-brightgreen) ![Offline](https://img.shields.io/badge/offline-first-orange)
 
 ---
+
+<img width="1863" height="945" alt="Screenshot_20260926_114917" src="https://github.com/user-attachments/assets/211d4e67-08d2-4ed6-b586-ea21a7f89452" />
+
 
 ## ✨ Fitur
 
