@@ -1,3 +1,5 @@
+# Context Merge
+
 **Gabungkan konteks AI. Satu paste. Nol keribetan.**
 Aplikasi web desktop offline-first untuk vibe coder yang pakai AI gratis.
 
