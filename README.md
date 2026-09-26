@@ -23,7 +23,6 @@ Aplikasi web desktop offline-first untuk vibe coder yang pakai AI gratis.
 | **⌨️ Keyboard-First**         | Navigasi keyboard penuh + shortcut                             |
 | **🌙 Dark Mode**              | UI gelap eksklusif, nyaman di mata                             |
 | **📴 Offline-First**          | Nol server. Nol cloud. Nol auth. Jalan tanpa internet.         |
-| **🗃️ Pluggable Storage**      | localStorage sekarang, IndexedDB/SQLite/PostgreSQL menyusul    |
 
 ---
 
