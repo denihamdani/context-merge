@@ -569,3 +569,311 @@
     font-size: var(--fs-caption);
     color: var(--text-tertiary);
 }
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: DRAWER TOGGLE (Tablet Only)
+   ═══════════════════════════════════════════════════ */
+
+.drawer-toggle {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: SIDEBAR SEGMENTED CONTROL
+   ═══════════════════════════════════════════════════ */
+
+.sidebar-segmented {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: BOTTOM TAB BAR
+   ═══════════════════════════════════════════════════ */
+
+.bottom-tab-bar {
+    display: none;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: TABLET (768–1023px)
+   ═══════════════════════════════════════════════════ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+
+    /* Header: show drawer toggle */
+    .header-left {
+        gap: var(--space-3);
+    }
+
+    .drawer-toggle {
+        display: inline-flex;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: MOBILE (<768px)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+
+    /* ── Header: icon-only buttons ── */
+    .header-right .btn-label {
+        display: none;
+    }
+
+    .header-right .btn {
+        width: var(--h-touch);
+        height: var(--h-touch);
+        padding: 0;
+        justify-content: center;
+        font-size: 18px;
+    }
+
+    @media (max-width: 479px) {
+        .app-version {
+            display: none;
+        }
+    }
+
+    /* ── Sidebar Segmented Control ── */
+    .sidebar-segmented {
+        display: flex;
+        padding: var(--space-2) var(--space-3);
+        gap: 0;
+        border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .seg-btn {
+        flex: 1;
+        height: var(--h-touch);
+        background: var(--bg-base);
+        border: 1px solid var(--border-default);
+        color: var(--text-secondary);
+        font-family: var(--font-sans);
+        font-size: var(--fs-body-sm);
+        font-weight: var(--fw-semibold);
+        cursor: pointer;
+        transition: background var(--t-fast), color var(--t-fast), border-color var(--t-fast);
+    }
+
+    .seg-btn:first-child {
+        border-radius: var(--r-md) 0 0 var(--r-md);
+    }
+
+    .seg-btn:last-child {
+        border-radius: 0 var(--r-md) var(--r-md) 0;
+    }
+
+    .seg-btn+.seg-btn {
+        border-left: none;
+    }
+
+    .seg-btn.active {
+        background: var(--blue-500);
+        color: var(--text-primary);
+        border-color: var(--blue-500);
+    }
+
+    .seg-btn:focus-visible {
+        outline: 2px solid var(--yellow-500);
+        outline-offset: -2px;
+        z-index: 1;
+    }
+
+    /* Show only active section */
+    .sidebar-section {
+        display: none;
+    }
+
+    .sidebar-section.active {
+        display: block;
+    }
+
+    .item-list {
+        max-height: none;
+    }
+
+    /* ── Merge Item Row ── */
+    .merge-item .drag-handle {
+        display: none;
+    }
+
+    .merge-item .item-tokens {
+        display: none;
+    }
+
+    .merge-item .move-btn,
+    .merge-item .remove-btn {
+        min-width: 40px;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .merge-item {
+        gap: var(--space-1);
+    }
+
+    .merge-controls {
+        flex-wrap: wrap;
+    }
+
+    .merge-controls .select-input {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* ── Action Bar (sticky in Merge tab) ── */
+    .action-bar {
+        position: sticky;
+        bottom: 0;
+        padding: var(--space-2) var(--space-3);
+        background: var(--bg-surface);
+        z-index: 10;
+    }
+
+    .action-bar .btn {
+        height: var(--h-touch);
+    }
+
+    .action-bar .btn-copy {
+        flex: 1;
+    }
+
+    /* ── Modal → Bottom Sheet ── */
+    .modal-overlay {
+        align-items: flex-end;
+    }
+
+    .modal {
+        width: 100%;
+        max-height: 90dvh;
+        border-radius: var(--r-lg) var(--r-lg) 0 0;
+        animation: modal-sheet-in 250ms ease-out;
+    }
+
+    .modal-shortcuts {
+        width: 100%;
+    }
+
+    .modal-header {
+        padding: var(--space-3) var(--space-4);
+    }
+
+    .modal-body {
+        padding: var(--space-4);
+    }
+
+    .modal-footer {
+        padding: var(--space-3) var(--space-4);
+        padding-bottom: calc(var(--space-3) + var(--safe-bottom));
+        background: var(--bg-elevated);
+        border-top: 1px solid var(--border-subtle);
+    }
+
+    /* ── Context Menu → Action Sheet ── */
+    .context-menu {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: auto;
+        width: 100%;
+        min-width: 0;
+        border-radius: var(--r-lg) var(--r-lg) 0 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        padding-bottom: var(--safe-bottom);
+        animation: ctx-sheet-in 200ms ease-out;
+    }
+
+    .ctx-item {
+        min-height: var(--h-touch);
+        padding: 12px var(--space-4);
+    }
+
+    /* ── Item Menu Button: always visible ── */
+    .item-list li .item-menu-btn {
+        opacity: 1;
+    }
+
+    /* ── Bottom Tab Bar ── */
+    .bottom-tab-bar {
+        display: flex;
+        flex: 0 0 auto;
+        height: calc(var(--h-tabbar) + var(--safe-bottom));
+        padding-bottom: var(--safe-bottom);
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border-default);
+        z-index: 100;
+    }
+
+    .tab-btn {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2px;
+        background: none;
+        border: none;
+        color: var(--text-tertiary);
+        cursor: pointer;
+        font-family: var(--font-sans);
+        transition: color var(--t-fast);
+    }
+
+    .tab-btn .tab-icon {
+        font-size: 20px;
+    }
+
+    .tab-btn .tab-label {
+        font-size: var(--fs-caption);
+    }
+
+    .tab-btn.active {
+        color: var(--blue-500);
+    }
+
+    .tab-btn:focus-visible {
+        outline: 2px solid var(--yellow-500);
+        outline-offset: -2px;
+    }
+
+    /* ── Preview panel full width ── */
+    .preview-content pre {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   ANIMATIONS: Mobile Bottom Sheet
+   ═══════════════════════════════════════════════════ */
+
+@keyframes modal-sheet-in {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes ctx-sheet-in {
+    from {
+        transform: translateY(16px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

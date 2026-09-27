@@ -1,32 +1,70 @@
-/* 
+/*
     # Copyright (c) 2026 Deni Hamdani
     # SPDX-License-Identifier: MIT
 
     ============================================
-    UI: Keyboard Shortcuts
-    ============================================ 
+    UI: Keyboard Shortcuts + Touch Long-Press
+    ============================================
 */
 
 CS.ShortcutsUI = {
+    // Touch tracking for long-press vs scroll detection
+    _touchStartX: 0,
+    _touchStartY: 0,
+    _touchMoved: false,
+    _TOUCH_THRESHOLD: 10,
+
     init() {
-        document.addEventListener('keydown', (e) => this.handle(e));
+        document.addEventListener('keydown', function (e) {
+            CS.ShortcutsUI.handle(e);
+        });
 
         // Close context menu on click anywhere
-        document.addEventListener('click', () => CS.ModalUI.hideContextMenu());
-        document.addEventListener('contextmenu', (e) => {
-            // Prevent default context menu outside sidebar/merge items
+        document.addEventListener('click', function () {
+            CS.ModalUI.hideContextMenu();
+        });
+
+        // ── TOUCH TRACKING (long-press vs scroll) ──
+        document.addEventListener('touchstart', function (e) {
+            if (e.touches.length === 1) {
+                CS.ShortcutsUI._touchStartX = e.touches[0].clientX;
+                CS.ShortcutsUI._touchStartY = e.touches[0].clientY;
+                CS.ShortcutsUI._touchMoved = false;
+            }
+        }, { passive: true });
+
+        document.addEventListener('touchmove', function (e) {
+            if (e.touches.length === 1 && !CS.ShortcutsUI._touchMoved) {
+                var dx = Math.abs(e.touches[0].clientX - CS.ShortcutsUI._touchStartX);
+                var dy = Math.abs(e.touches[0].clientY - CS.ShortcutsUI._touchStartY);
+                if (dx > CS.ShortcutsUI._TOUCH_THRESHOLD || dy > CS.ShortcutsUI._TOUCH_THRESHOLD) {
+                    CS.ShortcutsUI._touchMoved = true;
+                }
+            }
+        }, { passive: true });
+
+        // ── CONTEXT MENU HANDLER ──
+        document.addEventListener('contextmenu', function (e) {
+            // On touch: suppress context menu if user was scrolling (touchMoved)
+            if (CS.ShortcutsUI._touchMoved) {
+                e.preventDefault();
+                e.stopPropagation();
+                return;
+            }
+
+            // Prevent default browser context menu outside sidebar/merge items
             if (!e.target.closest('.item-list li') && !e.target.closest('.merge-item')) {
                 e.preventDefault();
             }
-        });
+        }, true); // capture phase — intercept before item handlers
     },
 
     handle(e) {
-        const isInput = e.target.matches('input, textarea');
-        const ctrl = e.ctrlKey || e.metaKey;
-        const shift = e.shiftKey;
-        const key = e.key;
-        const alt = e.altKey;
+        var isInput = e.target.matches('input, textarea');
+        var ctrl = e.ctrlKey || e.metaKey;
+        var shift = e.shiftKey;
+        var key = e.key;
+        var alt = e.altKey;
 
         // ── ALWAYS ACTIVE (even while typing) ──
 
@@ -41,7 +79,7 @@ CS.ShortcutsUI = {
         // Ctrl+S: save in modal
         if (ctrl && key === 's') {
             e.preventDefault();
-            const modalItem = document.getElementById('modal-item');
+            var modalItem = document.getElementById('modal-item');
             if (!modalItem.classList.contains('hidden')) {
                 CS.ModalUI.saveItem();
             }
@@ -105,7 +143,7 @@ CS.ShortcutsUI = {
         // Ctrl+P: Toggle preview mode
         if (ctrl && !shift && key.toLowerCase() === 'p') {
             e.preventDefault();
-            const mode = CS.PreviewUI.mode === 'raw' ? 'rendered' : 'raw';
+            var mode = CS.PreviewUI.mode === 'raw' ? 'rendered' : 'raw';
             CS.PreviewUI.setMode(mode);
             return;
         }
@@ -120,7 +158,7 @@ CS.ShortcutsUI = {
         // Ctrl+Shift+M: Add selected to merge
         if (ctrl && shift && key.toLowerCase() === 'm') {
             e.preventDefault();
-            const sel = CS.SidebarUI.getSelected();
+            var sel = CS.SidebarUI.getSelected();
             if (sel.id && sel.type) {
                 CS.MergeUI.addItem(sel.type, sel.id);
             }
@@ -130,9 +168,9 @@ CS.ShortcutsUI = {
         // Enter: Edit selected
         if (key === 'Enter') {
             e.preventDefault();
-            const sel = CS.SidebarUI.getSelected();
-            if (sel.id && sel.type) {
-                CS.ModalUI.openEdit(sel.type, sel.id);
+            var selEdit = CS.SidebarUI.getSelected();
+            if (selEdit.id && selEdit.type) {
+                CS.ModalUI.openEdit(selEdit.type, selEdit.id);
             }
             return;
         }
@@ -140,29 +178,28 @@ CS.ShortcutsUI = {
         // Ctrl+Enter: Copy selected item
         if (ctrl && key === 'Enter') {
             e.preventDefault();
-            this.copySelectedItem();
+            CS.ShortcutsUI.copySelectedItem();
             return;
         }
 
         // Delete: Delete selected
         if (key === 'Delete' || key === 'Backspace') {
             e.preventDefault();
-            this.deleteSelectedItem();
+            CS.ShortcutsUI.deleteSelectedItem();
             return;
         }
 
-        // Ctrl+Shift+M handled above
         // Alt+↑/↓: Move merge item
-        if (e.altKey && key === 'ArrowUp') {
+        // TODO (BUG): Currently moves items[0], not selected item. Tracked separately per spec §6 P2.
+        if (alt && key === 'ArrowUp') {
             e.preventDefault();
-            // Move last selected merge item up (simplified)
             if (CS.MergeUI.items.length > 0) {
                 CS.MergeUI.moveItem(CS.MergeUI.items[0].refId, -1);
             }
             return;
         }
 
-        if (e.altKey && key === 'ArrowDown') {
+        if (alt && key === 'ArrowDown') {
             e.preventDefault();
             if (CS.MergeUI.items.length > 0) {
                 CS.MergeUI.moveItem(CS.MergeUI.items[0].refId, 1);
@@ -172,18 +209,18 @@ CS.ShortcutsUI = {
     },
 
     async copySelectedItem() {
-        const sel = CS.SidebarUI.getSelected();
+        var sel = CS.SidebarUI.getSelected();
         if (!sel.id) return;
-        const repo = sel.type === 'role' ? CS.RoleRepo : CS.ContextRepo;
-        const item = await repo.findById(sel.id);
+        var repo = sel.type === 'role' ? CS.RoleRepo : CS.ContextRepo;
+        var item = await repo.findById(sel.id);
         if (item) {
             CS.Clipboard.copy(item.content || '');
-            CS.ToastUI.show(`Copied "${item.title}"`, 'success');
+            CS.ToastUI.show('Copied "' + item.title + '"', 'success');
         }
     },
 
     deleteSelectedItem() {
-        const sel = CS.SidebarUI.getSelected();
+        var sel = CS.SidebarUI.getSelected();
         if (!sel.id) return;
         CS.ModalUI.openDelete(sel.type, sel.id, 'this item');
     },

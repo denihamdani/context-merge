@@ -26,7 +26,7 @@
 }
 
 .btn:active {
-    transform: scale(0.97);
+    transform: scale(0.98);
 }
 
 .btn-sm {
@@ -450,4 +450,92 @@
     min-width: 80px;
     text-align: right;
     font-weight: var(--fw-medium);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: TOUCH TARGETS
+   ═══════════════════════════════════════════════════ */
+
+@media (hover: none) {
+    .btn-icon {
+        min-width: var(--h-touch);
+        min-height: var(--h-touch);
+    }
+
+    .move-btn,
+    .remove-btn,
+    .item-menu-btn,
+    .toast-close {
+        min-width: 40px;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ctx-item {
+        min-height: var(--h-touch);
+        padding: 10px var(--space-4);
+    }
+
+    .ctx-item .shortcut {
+        display: none;
+    }
+
+    .item-list li .item-menu-btn {
+        opacity: 1;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: MOBILE COMPONENTS (<768px)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+
+    /* iOS auto-zoom prevention */
+    .form-input,
+    .form-textarea,
+    .select-input {
+        font-size: 16px;
+    }
+
+    /* Toast */
+    .toast {
+        width: min(320px, calc(100vw - 32px));
+    }
+
+    .toast-close {
+        min-width: 32px;
+        min-height: 32px;
+    }
+
+    /* Token bar wrap */
+    .token-bar {
+        flex-wrap: wrap;
+    }
+
+    .token-info {
+        width: 100%;
+    }
+
+    .token-progress {
+        flex: 1;
+        min-width: 80px;
+    }
+
+    .token-label {
+        min-width: 60px;
+    }
+
+    /* Modal footer buttons */
+    .modal-footer .btn {
+        height: var(--h-touch);
+    }
+
+    /* Input in sidebar search */
+    .sidebar-search input {
+        height: var(--h-touch);
+        font-size: 16px;
+    }
 }

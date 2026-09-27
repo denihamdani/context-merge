@@ -113,4 +113,12 @@
     /* ── TRANSITIONS ── */
     --t-fast: 100ms ease;
     --t-normal: 200ms ease;
+
+    /* ── RESPONSIVE ── */
+    --h-touch: 44px;
+    --h-tabbar: 56px;
+    --space-8: 32px;
+    --space-12: 48px;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
 }

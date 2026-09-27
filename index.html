@@ -24,26 +24,37 @@
     <!-- ═══════════════ HEADER ═══════════════ -->
     <header id="app-header">
         <div class="header-left">
+            <button class="btn btn-icon drawer-toggle" id="btn-drawer-toggle" aria-label="Toggle sidebar"
+                aria-expanded="false">☰</button>
             <span class="logo">🧠</span>
             <h1 class="app-title">Context Merger</h1>
             <span class="app-version">v0.1.0</span>
         </div>
         <div class="header-right">
-            <button class="btn btn-ghost" id="btn-export" title="Export Data (Ctrl+Shift+E)">📤 Export</button>
-            <button class="btn btn-ghost" id="btn-import" title="Import Data (Alt+I)">📂 Import</button>
+            <button class="btn btn-ghost" id="btn-export" title="Export Data (Ctrl+Shift+E)">📤
+                <span class="btn-label">Export</span></button>
+            <button class="btn btn-ghost" id="btn-import" title="Import Data (Alt+I)">📂
+                <span class="btn-label">Import</span></button>
             <button class="btn btn-ghost" id="btn-shortcuts" title="Keyboard Shortcuts (Ctrl+/)">⌨️</button>
         </div>
         <input type="file" id="file-import" accept=".json" hidden>
     </header>
 
     <!-- ═══════════════ SIDEBAR ═══════════════ -->
-    <aside id="sidebar">
+    <aside id="sidebar" role="tabpanel" aria-label="Items">
         <div class="sidebar-search">
             <input type="text" id="search-input" placeholder="🔍  Search..." />
         </div>
 
+        <!-- Segmented control (mobile only) -->
+        <div class="sidebar-segmented" role="tablist" aria-label="Item categories">
+            <button role="tab" class="seg-btn active" data-section="roles" aria-selected="true">📋 Roles</button>
+            <button role="tab" class="seg-btn" data-section="contexts" aria-selected="false">📄 Context</button>
+            <button role="tab" class="seg-btn" data-section="presets" aria-selected="false">📌 Presets</button>
+        </div>
+
         <!-- ROLES -->
-        <section class="sidebar-section" id="section-roles">
+        <section class="sidebar-section active" id="section-roles">
             <div class="section-header">
                 <h2>📋 Roles <span class="count" id="role-count">0</span></h2>
                 <button class="btn btn-sm btn-primary" id="btn-add-role" title="New Role (Alt+N)">+ New</button>
@@ -69,11 +80,14 @@
         </section>
     </aside>
 
+    <!-- Drawer Backdrop (tablet only) -->
+    <div class="drawer-backdrop hidden" id="drawer-backdrop"></div>
+
     <!-- ═══════════════ MAIN CONTENT ═══════════════ -->
     <main id="main-content">
 
         <!-- MERGE WORKSPACE -->
-        <section class="panel merge-panel" id="merge-panel">
+        <section class="panel merge-panel" id="merge-panel" role="tabpanel" aria-label="Merge">
             <div class="panel-header">
                 <h2>🔀 Merge Workspace</h2>
                 <div class="merge-controls">
@@ -117,7 +131,7 @@
         </section>
 
         <!-- PREVIEW PANEL -->
-        <section class="panel preview-panel" id="preview-panel">
+        <section class="panel preview-panel" id="preview-panel" role="tabpanel" aria-label="Preview">
             <div class="panel-header">
                 <h2>👁 Output Preview</h2>
                 <div class="preview-controls">
@@ -132,6 +146,25 @@
         </section>
 
     </main>
+
+    <!-- ═══════════════ BOTTOM TAB BAR (Mobile) ═══════════════ -->
+    <nav class="bottom-tab-bar" role="tablist" aria-label="Main navigation">
+        <button role="tab" class="tab-btn active" id="tab-btn-items" data-tab="items" aria-selected="true"
+            aria-controls="sidebar">
+            <span class="tab-icon">📋</span>
+            <span class="tab-label">Items</span>
+        </button>
+        <button role="tab" class="tab-btn" id="tab-btn-merge" data-tab="merge" aria-selected="false"
+            aria-controls="merge-panel">
+            <span class="tab-icon">🔀</span>
+            <span class="tab-label">Merge</span>
+        </button>
+        <button role="tab" class="tab-btn" id="tab-btn-preview" data-tab="preview" aria-selected="false"
+            aria-controls="preview-panel">
+            <span class="tab-icon">👁</span>
+            <span class="tab-label">Preview</span>
+        </button>
+    </nav>
 
     <!-- ═══════════════ STATUS BAR ═══════════════ -->
     <footer id="status-bar">
@@ -247,6 +280,13 @@
                 <div class="shortcut-row"><span>Move down</span><kbd>Alt</kbd>+<kbd>↓</kbd></div>
                 <h4>Edit Modal</h4>
                 <div class="shortcut-row"><span>Save</span><kbd>Ctrl</kbd>+<kbd>S</kbd></div>
+                <h4>Touch Gestures</h4>
+                <div class="shortcut-row"><span>New item</span><span>+ New button in section</span></div>
+                <div class="shortcut-row"><span>Open actions</span><span>Tap ⋮ menu button</span></div>
+                <div class="shortcut-row"><span>Long-press (Android)</span><span>Context menu on item</span></div>
+                <div class="shortcut-row"><span>Close / Cancel</span><span>Tap overlay or ✕ / Batal</span></div>
+                <div class="shortcut-row"><span>Copy merge output</span><span>📋 Copy All button</span></div>
+                <div class="shortcut-row"><span>Move merge item</span><span>▲ / ▼ buttons</span></div>
             </div>
         </div>
 

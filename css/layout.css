@@ -94,3 +94,139 @@ body {
         padding: var(--space-2);
     }
 }
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: TABLET (768–1023px)
+   ═══════════════════════════════════════════════════ */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    body {
+        grid-template-columns: 1fr;
+    }
+
+    #sidebar {
+        position: fixed;
+        left: 0;
+        top: var(--h-header);
+        bottom: 0;
+        width: 280px;
+        transform: translateX(-100%);
+        transition: transform var(--t-normal);
+        z-index: 200;
+        box-shadow: none;
+    }
+
+    #sidebar.drawer-open {
+        transform: translateX(0);
+        box-shadow: var(--shadow-lg);
+    }
+
+    #main-content {
+        grid-column: 1 / -1;
+    }
+
+    .merge-panel {
+        flex: 55;
+    }
+
+    .preview-panel {
+        flex: 45;
+    }
+
+    .drawer-toggle {
+        display: inline-flex;
+    }
+
+    .drawer-backdrop {
+        position: fixed;
+        inset: 0;
+        top: var(--h-header);
+        background: var(--bg-overlay);
+        z-index: 199;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE: MOBILE (<768px)
+   ═══════════════════════════════════════════════════ */
+
+@media (max-width: 767px) {
+
+    html,
+    body {
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #app-header {
+        flex: 0 0 auto;
+        height: calc(var(--h-header) + var(--safe-top));
+        padding-top: var(--safe-top);
+    }
+
+    #sidebar {
+        display: none;
+        flex: 1;
+        min-height: 0;
+        width: 100%;
+        overflow-y: auto;
+        border-right: none;
+        position: static;
+        transform: none;
+        transition: none;
+        box-shadow: none;
+    }
+
+    #main-content {
+        display: none;
+        flex: 1;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    #status-bar {
+        display: none;
+    }
+
+    .drawer-toggle {
+        display: none;
+    }
+
+    .drawer-backdrop {
+        display: none !important;
+    }
+
+    /* ── Tab Visibility ── */
+    body.tab-items #sidebar {
+        display: flex;
+    }
+
+    body.tab-merge #main-content {
+        display: flex;
+    }
+
+    body.tab-preview #main-content {
+        display: flex;
+    }
+
+    body.tab-merge .preview-panel {
+        display: none;
+    }
+
+    body.tab-merge .merge-panel {
+        flex: 1;
+    }
+
+    body.tab-preview .merge-panel {
+        display: none;
+    }
+
+    body.tab-preview .preview-panel {
+        flex: 1;
+    }
+}
