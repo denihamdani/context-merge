@@ -189,20 +189,23 @@ CS.ShortcutsUI = {
             return;
         }
 
-        // Alt+↑/↓: Move merge item
-        // TODO (BUG): Currently moves items[0], not selected item. Tracked separately per spec §6 P2.
-        if (alt && key === 'ArrowUp') {
+        // Ctrl+Shift+↑/↓: Move selected merge item
+        if (ctrl && shift && key === 'ArrowUp') {
             e.preventDefault();
-            if (CS.MergeUI.items.length > 0) {
-                CS.MergeUI.moveItem(CS.MergeUI.items[0].refId, -1);
+            if (CS.MergeUI.selectedRefId) {
+                CS.MergeUI.moveItem(CS.MergeUI.selectedRefId, -1);
+            } else if (CS.MergeUI.items.length > 0) {
+                CS.ToastUI.show('Click a merge item to select it first', 'info');
             }
             return;
         }
 
-        if (alt && key === 'ArrowDown') {
+        if (ctrl && shift && key === 'ArrowDown') {
             e.preventDefault();
-            if (CS.MergeUI.items.length > 0) {
-                CS.MergeUI.moveItem(CS.MergeUI.items[0].refId, 1);
+            if (CS.MergeUI.selectedRefId) {
+                CS.MergeUI.moveItem(CS.MergeUI.selectedRefId, 1);
+            } else if (CS.MergeUI.items.length > 0) {
+                CS.ToastUI.show('Click a merge item to select it first', 'info');
             }
             return;
         }

@@ -1,16 +1,17 @@
-/* 
+/*
     # Copyright (c) 2026 Deni Hamdani
     # SPDX-License-Identifier: MIT
 
     ============================================
     UI: Merge Workspace Panel
-    ============================================ 
+    ============================================
 */
 
 CS.MergeUI = {
-    items: [], // [{ type, refId, selected, order }]
+    items: [],
     currentTemplateId: 't_default',
     _isRendering: false,
+    selectedRefId: null,
 
     init() {
         this.bindEvents();
@@ -27,10 +28,8 @@ CS.MergeUI = {
             this.triggerMerge();
         });
 
-        // Re-render when sidebar data changes
         CS.EventBus.on('data:changed', () => {
-            //console.log(this);
-            this.render()
+            this.render();
         });
     },
 
@@ -48,10 +47,6 @@ CS.MergeUI = {
     },
 
     addItem(type, refId) {
-
-        console.log("ADD ITEM");
-
-        // Prevent duplicates
         if (this.items.some(i => i.refId === refId)) {
             CS.ToastUI.show('Already in merge', 'warning');
             return;
@@ -62,15 +57,17 @@ CS.MergeUI = {
             selected: true,
             order: this.items.length,
         });
+        this.selectedRefId = refId;
         this.render();
         this.triggerMerge();
-
     },
 
     removeItem(refId) {
         this.items = this.items.filter(i => i.refId !== refId);
-        // Re-order
         this.items.forEach((item, idx) => item.order = idx);
+        if (this.selectedRefId === refId) {
+            this.selectedRefId = null;
+        }
         this.render();
         this.triggerMerge();
     },
@@ -82,12 +79,21 @@ CS.MergeUI = {
         if (target < 0 || target >= this.items.length) return;
         [this.items[idx], this.items[target]] = [this.items[target], this.items[idx]];
         this.items.forEach((item, i) => item.order = i);
+        this.selectedRefId = refId;
         this.render();
         this.triggerMerge();
     },
 
+    selectMergeItem(refId) {
+        this.selectedRefId = refId;
+        document.querySelectorAll('.merge-item').forEach(el => {
+            el.classList.toggle('selected', el.dataset.refId === refId);
+        });
+    },
+
     clearAll() {
         this.items = [];
+        this.selectedRefId = null;
         this.render();
         this.triggerMerge();
         CS.ToastUI.show('Merge cleared', 'info');
@@ -99,6 +105,7 @@ CS.MergeUI = {
             selected: true,
             order: idx,
         }));
+        this.selectedRefId = null;
         if (preset.templateId) {
             this.currentTemplateId = preset.templateId;
             document.getElementById('template-select').value = preset.templateId;
@@ -109,10 +116,10 @@ CS.MergeUI = {
     },
 
     async render() {
-        if (this._isRendering) return;   // ⬅ CHANGED: guard
-        this._isRendering = true;        // ⬅ CHANGED: guard
+        if (this._isRendering) return;
+        this._isRendering = true;
 
-        try {                            // ⬅ CHANGED: try/finally
+        try {
             const ul = document.getElementById('merge-items');
             const empty = document.getElementById('merge-empty');
 
@@ -120,8 +127,6 @@ CS.MergeUI = {
                 ul.innerHTML = '';
                 empty.classList.remove('hidden');
                 this.updateStats(this._emptyStats());
-
-                // ⬅ CHANGED: lightweight badge update instead of full SidebarUI.render()
                 CS.SidebarUI.updateMergeBadges();
                 return;
             }
@@ -135,11 +140,16 @@ CS.MergeUI = {
                 const entity = item.type === 'role' ? 'roles' : 'contexts';
                 const data = await st.findById(entity, item.refId);
                 const title = data ? data.title : '⚠️ Missing';
-                const contentLen = data ? (data.content || '').length : 0;
                 const tokens = CS.Token.estimate(data ? data.content : '');
 
                 const li = document.createElement('li');
                 li.className = 'merge-item';
+                li.dataset.refId = item.refId;
+
+                if (this.selectedRefId === item.refId) {
+                    li.classList.add('selected');
+                }
+
                 li.innerHTML = `
           <span class="drag-handle">⠿</span>
           <span class="item-order">${i + 1}</span>
@@ -160,20 +170,22 @@ CS.MergeUI = {
                     if (data) CS.ModalUI.showContextMenu(e, { ...data, type: item.type, refId: item.refId }, 'merge');
                 });
 
+                li.addEventListener('click', (e) => {
+                    if (e.target.closest('button')) return;
+                    this.selectMergeItem(item.refId);
+                });
+
                 ul.appendChild(li);
             }
 
-            // ⬅ CHANGED: lightweight badge update instead of full SidebarUI.render()
-            // This was the ROOT CAUSE: CS.SidebarUI.render() → emit('data:changed') → this.render() → ∞
             CS.SidebarUI.updateMergeBadges();
 
         } finally {
-            this._isRendering = false;   // ⬅ CHANGED: release guard
+            this._isRendering = false;
         }
     },
 
     async triggerMerge() {
-
         const result = await CS.MergeEngine.merge(this.items, this.currentTemplateId);
         this.updateStats(result.stats);
         CS.PreviewUI.update(result.output);

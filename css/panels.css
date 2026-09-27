@@ -300,6 +300,15 @@
     color: var(--red-500);
 }
 
+.merge-item.selected {
+    background: var(--bg-selected);
+    border-color: var(--blue-500);
+}
+
+.merge-item.selected .item-name {
+    color: var(--blue-500);
+}
+
 .merge-empty {
     display: flex;
     flex-direction: column;
