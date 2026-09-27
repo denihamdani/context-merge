@@ -7,6 +7,16 @@
     ============================================
 */
 
+// Baris pertama di app.js (sebelum IIFE responsive)
+if (window.top !== window.self) {
+    try {
+        window.top.location.replace(window.self.location.href);
+    } catch (_) {
+        document.documentElement.style.display = 'none';
+        document.body.innerHTML = '';
+    }
+}
+
 // ── IMMEDIATE: prevent flash on mobile (runs before DOMContentLoaded) ──
 (function () {
     if (window.matchMedia('(max-width: 767px)').matches) {

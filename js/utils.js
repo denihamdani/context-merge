@@ -38,6 +38,22 @@ CS.Clipboard = {
     },
 };
 
+/* ── IMPORT SAFETY ── */
+const MAX_IMPORT_BYTES = 5 * 1024 * 1024;   // 5 MB
+const MAX_IMPORT_ITEMS = 1000;
+
+function safeParse(text) {
+    if (typeof text === 'string' && text.length > MAX_IMPORT_BYTES) {
+        throw new Error('File terlalu besar (maksimal 5 MB)');
+    }
+    return JSON.parse(text, function (key, value) {
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+            return undefined;
+        }
+        return value;
+    });
+}
+
 /* ── UTILS ── */
 CS.Utils = {
     downloadBlob(content, filename, mimeType) {
@@ -86,7 +102,7 @@ CS.Utils = {
             let data;
             if (fileOrData instanceof File) {
                 const text = await fileOrData.text();
-                data = JSON.parse(text);
+                data = safeParse(text);
             } else {
                 data = fileOrData;
             }
@@ -115,6 +131,11 @@ CS.Utils = {
 
     async importMarkdown(file, type = 'context') {
         try {
+            if (file.size > MAX_IMPORT_BYTES) {
+                CS.ToastUI.show('File terlalu besar (maksimal 5 MB)', 'error');
+                return;
+            }
+
             const content = await file.text();
             const filename = file.name.replace(/\.md$/i, '');
 

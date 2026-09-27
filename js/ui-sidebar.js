@@ -238,13 +238,13 @@ CS.SidebarUI = {
             const inMerge = CS.MergeUI.items.some(m => m.refId === item.id && m.selected);
 
             li.innerHTML = `
-        <span class="item-emoji">${item.emoji || (type === 'role' ? '🎭' : '📄')}</span>
+        <span class="item-emoji">${this.escapeHtml(item.emoji || (type === 'role' ? '🎭' : '📄'))}</span>
         <div class="item-info">
           <div class="item-title">${this.escapeHtml(item.title)}</div>
           <div class="item-snippet">${this.escapeHtml((item.content || '').substring(0, 50))}</div>
         </div>
         ${inMerge ? '<span class="in-merge-badge">🔗 In Merge</span>' : ''}
-        <button class="item-menu-btn" data-id="${item.id}" data-type="${type}">⋮</button>
+        <button class="item-menu-btn" data-id="${this.escapeHtml(item.id)}" data-type="${this.escapeHtml(type)}">⋮</button>
       `;
 
             // Click: select item
@@ -291,12 +291,12 @@ CS.SidebarUI = {
             li.dataset.type = 'preset';
 
             li.innerHTML = `
-        <span class="item-emoji">${item.emoji || '📌'}</span>
+        <span class="item-emoji">${this.escapeHtml(item.emoji || '📌')}</span>
         <div class="item-info">
           <div class="item-title">${this.escapeHtml(item.title)}</div>
-          <div class="item-snippet">${item.items.length} items</div>
+          <div class="item-snippet">${Number(item.items.length) || 0} items</div>
         </div>
-        <button class="item-menu-btn" data-id="${item.id}" data-type="preset">⋮</button>
+        <button class="item-menu-btn" data-id="${this.escapeHtml(item.id)}" data-type="preset">⋮</button>
       `;
 
             // Tap: double-tap confirmation before loading
@@ -340,8 +340,11 @@ CS.SidebarUI = {
        ══════════════════════════════════════════════ */
 
     escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text || '';
-        return div.innerHTML;
+        return String(text ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     },
 };

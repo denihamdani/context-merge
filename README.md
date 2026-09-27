@@ -1,7 +1,8 @@
 # Context Merger
 
 **Gabungkan konteks AI. Satu paste. Nol keribetan.**
-Aplikasi web desktop offline-first untuk vibe coder yang pakai AI gratis.
+Aplikasi web offline-first untuk vibe coder yang pakai AI gratis.
+Buka di desktop, tablet, atau mobile.
 
 ---
 
@@ -24,6 +25,7 @@ Aplikasi web desktop offline-first untuk vibe coder yang pakai AI gratis.
 | **📋 Copy Sekali Klik**       | Salin hasil merge langsung ke clipboard                        |
 | **⬇️ Export/Import**          | Backup JSON dengan checksum, export Markdown, import drag-drop |
 | **⌨️ Keyboard-First**         | Navigasi keyboard penuh + shortcut                             |
+| **📱 Responsive**             | Desktop, tablet, dan mobile dalam satu aplikasi                |
 | **🌙 Dark Mode**              | UI gelap eksklusif, nyaman di mata                             |
 | **📴 Offline-First**          | Nol server. Nol cloud. Nol auth. Jalan tanpa internet.         |
 
@@ -45,7 +47,7 @@ cd context-merge
 2. Ekstrak di mana aja
 3. Double-click `index.html`
 
-> **Syarat:** Browser desktop (Chrome, Edge, Firefox, Safari). Lebar minimum 1024px.
+> **Syarat:** Browser modern (Chrome, Edge, Firefox, Safari). Mendukung desktop (≥1024px), tablet (768–1023px), dan mobile (<768px).
 
 ---
 
@@ -68,17 +70,30 @@ cd context-merge
 
 ### Navigasi & Editing
 
-| Shortcut               | Aksi                              |
-| ---------------------- | --------------------------------- |
-| `↑` / `↓`              | Pindah antar item                 |
-| `Enter`                | Buka / Edit item terpilih         |
-| `Ctrl+Enter`           | Copy konten item terpilih         |
-| `Ctrl+Shift+M`         | Tambah item terpilih ke merge     |
-| `Ctrl+S`               | Simpan (di dalam modal)           |
-| `Alt+↑` / `Alt+↓`      | Pindahkan item merge naik / turun |
-| `Delete` / `Backspace` | Hapus item terpilih               |
+| Shortcut                        | Aksi                              |
+| ------------------------------- | --------------------------------- |
+| `↑` / `↓`                       | Pindah antar item                 |
+| `Enter`                         | Buka / Edit item terpilih         |
+| `Ctrl+Enter`                    | Copy konten item terpilih         |
+| `Ctrl+Shift+M`                  | Tambah item terpilih ke merge     |
+| `Ctrl+S`                        | Simpan (di dalam modal)           |
+| `Ctrl+Shift+↑` / `Ctrl+Shift+↓` | Pindahkan item merge naik / turun |
+| `Delete` / `Backspace`          | Hapus item terpilih               |
 
 > Tekan `Ctrl+/` di aplikasi untuk lihat shortcut kapan saja.
+
+---
+
+## 👆 Touch Gestures (Mobile & Tablet)
+
+| Gestur                  | Aksi                              |
+| ----------------------- | --------------------------------- |
+| Tap item                | Pilih item                        |
+| Tap **⋮**               | Buka action sheet                 |
+| Long-press (Android)    | Buka action sheet                 |
+| Double-tap preset       | Konfirmasi lalu load preset       |
+| Tap **▲ / ▼**           | Pindahkan item merge naik / turun |
+| Tap overlay / ✕ / Batal | Tutup modal / action sheet        |
 
 ---
 
@@ -87,7 +102,7 @@ cd context-merge
 | Layer          | Pilihan                  | Alasan                                 |
 | -------------- | ------------------------ | -------------------------------------- |
 | **Frontend**   | Vanilla HTML + CSS + JS  | Nol dependensi, nol build tools        |
-| **Styling**    | CSS Custom Properties    | Design tokens, dark mode               |
+| **Styling**    | CSS Custom Properties    | Design tokens, responsive, dark mode   |
 | **Storage**    | localStorage (pluggable) | Offline, instan, tanpa setup           |
 | **Events**     | Custom pub/sub EventBus  | Modul yang tidak saling ketergantungan |
 | **Distribusi** | File statis              | Buka di browser mana pun, tanpa server |
@@ -98,22 +113,22 @@ cd context-merge
 index.html
 ├── css/
 │   ├── variables.css      ← Design tokens
-│   ├── base.css           ← Reset, tipografi
-│   ├── layout.css         ← Grid layout, breakpoint
-│   ├── components.css     ← Tombol, input, modal
-│   └── panels.css         ← Sidebar, merge, preview
+│   ├── base.css           ← Reset, tipografi, reduced-motion
+│   ├── layout.css         ← Grid layout, breakpoint responsif
+│   ├── components.css     ← Tombol, input, modal, touch targets
+│   └── panels.css         ← Sidebar, merge, preview, tab bar
 └── js/
     ├── core.js            ← EventBus, konstanta, generator ID
     ├── storage.js         ← Registry adapter storage
     ├── repository.js      ← Logika CRUD per entitas
     ├── merge.js           ← Merge engine + estimasi token
-    ├── ui-sidebar.js      ← Rendering sidebar
-    ├── ui-merge.js        ← Workspace merge
+    ├── ui-sidebar.js      ← Rendering sidebar + long-press
+    ├── ui-merge.js        ← Workspace merge + seleksi item
     ├── ui-preview.js      ← Panel preview
-    ├── ui-modal.js        ← Modal, toast, context menu
-    ├── ui-shortcuts.js    ← Handler keyboard
+    ├── ui-modal.js        ← Modal, toast, action sheet
+    ├── ui-shortcuts.js    ← Handler keyboard + touch tracking
     ├── utils.js           ← Export, import, clipboard
-    └── app.js             ← Titik masuk
+    └── app.js             ← Titik masuk + responsive controller
 ```
 
 ---
@@ -153,7 +168,4 @@ Anggaran default: **8.000 token** (sesuai batas ChatGPT gratis).
 - **File Markdown** — Import batch via drag & drop
 - **Paste dari clipboard** — Paste markdown mentah
 
-**Catatan:**
-- Ganti `username-kamu` di bagian clone URL dengan username GitHub kamu
-- Disarankan bikin dua file: `README.md` (English) + `README-ID.md` (Bahasa Indonesia), atau pakai toggle di bagian atas README
-- Tambahin screenshot/GIF nanti kalau sudah ada, langsung boost kredibilitas repo-nya 
+---

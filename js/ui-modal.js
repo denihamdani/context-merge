@@ -211,8 +211,8 @@ CS.ModalUI = {
 
         document.getElementById('import-info').innerHTML =
             '📦 Data: ' + roles + ' Roles · ' + ctxs + ' Context · ' + presets + ' Presets<br>' +
-            '📅 Exported: ' + (data.meta ? data.meta.exportedAt : 'Unknown') + '<br>' +
-            '🏷️ Version: ' + (data.meta ? data.meta.version : 'Unknown');
+            '📅 Exported: ' + CS.SidebarUI.escapeHtml(data.meta ? data.meta.exportedAt : 'Unknown') + '<br>' +
+            '🏷️ Version: ' + CS.SidebarUI.escapeHtml(data.meta ? data.meta.version : 'Unknown');
 
         document.getElementById('modal-import-confirm').onclick = function () {
             CS.ModalUI.executeImport();
@@ -244,8 +244,25 @@ CS.ModalUI = {
         var emoji = document.getElementById('item-emoji').value.trim();
         var content = document.getElementById('item-content').value;
 
-        if (!title) {
+        // Validasi title
+        if (!title || typeof title !== 'string') {
             CS.ToastUI.show('Title is required', 'error');
+            return;
+        }
+        if (title.length > 200) {
+            CS.ToastUI.show('Title too long (max 200 chars)', 'error');
+            return;
+        }
+
+        // Validasi emoji
+        if (emoji.length > 8) {
+            emoji = emoji.slice(0, 8);
+        }
+
+        // Validasi content
+        if (typeof content !== 'string') content = '';
+        if (content.length > 500000) {
+            CS.ToastUI.show('Content too large (max 500 KB)', 'error');
             return;
         }
 
@@ -268,18 +285,40 @@ CS.ModalUI = {
         var title = document.getElementById('preset-title').value.trim();
         var emoji = document.getElementById('preset-emoji').value.trim() || '📌';
 
-        if (!title) {
+        // Validasi title
+        if (!title || typeof title !== 'string') {
             CS.ToastUI.show('Preset name is required', 'error');
             return;
         }
+        if (title.length > 200) {
+            CS.ToastUI.show('Preset name too long (max 200 chars)', 'error');
+            return;
+        }
+
+        // Validasi emoji
+        if (emoji.length > 8) emoji = emoji.slice(0, 8);
+
+        // Validasi items — hanya simpan field yang diizinkan
+        var cleanItems = CS.MergeUI.items
+            .filter(function (i) { return i && typeof i === 'object'; })
+            .slice(0, 50)
+            .map(function (i) {
+                return {
+                    type: i.type === 'role' ? 'role' : 'context',
+                    refId: typeof i.refId === 'string' ? i.refId.slice(0, 64) : '',
+                };
+            });
+
+        // Validasi templateId
+        var templateId = (typeof CS.MergeUI.currentTemplateId === 'string')
+            ? CS.MergeUI.currentTemplateId.slice(0, 64)
+            : 't_default';
 
         await CS.PresetRepo.create({
             title: title,
             emoji: emoji,
-            items: CS.MergeUI.items.map(function (i) {
-                return { type: i.type, refId: i.refId };
-            }),
-            templateId: CS.MergeUI.currentTemplateId,
+            items: cleanItems,
+            templateId: templateId,
         });
 
         this.closeAll();

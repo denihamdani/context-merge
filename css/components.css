@@ -452,6 +452,14 @@
     font-weight: var(--fw-medium);
 }
 
+.token-fill-init {
+    width: 0%;
+}
+
+.ctx-item-shortcut-hidden {
+    flex-grow: 0;
+}
+
 /* ═══════════════════════════════════════════════════
    RESPONSIVE: TOUCH TARGETS
    ═══════════════════════════════════════════════════ */

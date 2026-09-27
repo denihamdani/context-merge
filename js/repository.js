@@ -7,17 +7,44 @@
     ============================================ 
 */
 
+CS.validateEntity = {
+    title(str, fallback) {
+        return (typeof str === 'string' && str.trim().length > 0)
+            ? str.trim().slice(0, 200)
+            : fallback;
+    },
+
+    content(str) {
+        return typeof str === 'string' ? str.slice(0, 500000) : '';
+    },
+
+    emoji(str, fallback) {
+        return (typeof str === 'string' && str.length > 0 && str.length <= 8)
+            ? str
+            : fallback;
+    },
+
+    tags(arr) {
+        if (!Array.isArray(arr)) return [];
+        return arr
+            .slice(0, 20)
+            .map(t => String(t).slice(0, 50))
+            .filter(t => t.length > 0);
+    },
+};
+
 CS.RoleRepo = (function () {
     const st = () => CS.Storage.getAdapter();
 
     return {
         async create(data) {
             const now = new Date().toISOString();
+            const v = CS.validateEntity;
             const role = {
                 id: CS.generateId('r'),
-                title: data.title || 'Untitled Role',
-                content: data.content || '',
-                emoji: data.emoji || CS.CONST.DEFAULT_EMOJI.role,
+                title: v.title(data.title, 'Untitled Role'),
+                content: v.content(data.content),
+                emoji: v.emoji(data.emoji, CS.CONST.DEFAULT_EMOJI.role),
                 sortOrder: await st().count('roles'),
                 createdAt: now,
                 updatedAt: now,
@@ -45,13 +72,14 @@ CS.ContextRepo = (function () {
     return {
         async create(data) {
             const now = new Date().toISOString();
+            const v = CS.validateEntity;
             const ctx = {
                 id: CS.generateId('c'),
-                title: data.title || 'Untitled Context',
-                content: data.content || '',
-                emoji: data.emoji || CS.CONST.DEFAULT_EMOJI.context,
+                title: v.title(data.title, 'Untitled Context'),
+                content: v.content(data.content),
+                emoji: v.emoji(data.emoji, CS.CONST.DEFAULT_EMOJI.context),
                 sortOrder: await st().count('contexts'),
-                tags: data.tags || [],
+                tags: v.tags(data.tags),
                 createdAt: now,
                 updatedAt: now,
             };
@@ -78,12 +106,24 @@ CS.PresetRepo = (function () {
     return {
         async create(data) {
             const now = new Date().toISOString();
+            const v = CS.validateEntity;
+
+            // Validasi items preset
+            const items = Array.isArray(data.items)
+                ? data.items.slice(0, 50).filter(i => i && typeof i === 'object').map(i => ({
+                    type: i.type === 'role' ? 'role' : 'context',
+                    refId: typeof i.refId === 'string' ? i.refId.slice(0, 64) : '',
+                }))
+                : [];
+
             const preset = {
                 id: CS.generateId('p'),
-                title: data.title || 'Untitled Preset',
-                emoji: data.emoji || CS.CONST.DEFAULT_EMOJI.preset,
-                items: data.items || [],
-                templateId: data.templateId || 't_default',
+                title: v.title(data.title, 'Untitled Preset'),
+                emoji: v.emoji(data.emoji, CS.CONST.DEFAULT_EMOJI.preset),
+                items: items,
+                templateId: typeof data.templateId === 'string'
+                    ? data.templateId.slice(0, 64)
+                    : 't_default',
                 createdAt: now,
                 updatedAt: now,
             };

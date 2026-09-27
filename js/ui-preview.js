@@ -36,6 +36,50 @@ CS.PreviewUI = {
         }
     },
 
+    _sanitizeRendered(container) {
+        const ALLOWED_TAGS = new Set([
+            'P', 'H1', 'H2', 'H3', 'H4', 'UL', 'OL', 'LI',
+            'STRONG', 'EM', 'CODE', 'PRE', 'BLOCKQUOTE', 'A', 'BR', 'HR'
+        ]);
+        const SAFE_PROTO = /^(https?:|#|mailto:)/i;
+        const DANGEROUS = new Set(['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED', 'LINK', 'META', 'BASE', 'FORM']);
+
+        const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT);
+        const toRemove = [];
+
+        while (walker.nextNode()) {
+            const el = walker.currentNode;
+
+            if (!ALLOWED_TAGS.has(el.tagName)) {
+                toRemove.push(el);
+                continue;
+            }
+
+            // Hapus semua atribut kecuali href pada <a>
+            for (const attr of [...el.attributes]) {
+                const name = attr.name.toLowerCase();
+                if (el.tagName === 'A' && name === 'href') {
+                    if (!SAFE_PROTO.test(attr.value.trim())) {
+                        el.removeAttribute('href');
+                    }
+                    el.setAttribute('rel', 'noopener noreferrer');
+                    el.setAttribute('target', '_blank');
+                } else {
+                    el.removeAttribute(attr.name);
+                }
+            }
+        }
+
+        // Buang elemen terlarang / ganti dengan teks
+        for (const el of toRemove.reverse()) {
+            if (DANGEROUS.has(el.tagName)) {
+                el.remove();
+            } else {
+                el.replaceWith(document.createTextNode(el.textContent));
+            }
+        }
+    },
+
     renderMarkdown(text) {
         const el = document.getElementById('preview-rendered');
         if (!text) {
@@ -76,12 +120,15 @@ CS.PreviewUI = {
         html = html.replace(/\n\n/g, '<br><br>');
 
         el.innerHTML = html;
+        this._sanitizeRendered(el);
     },
 
     escapeHtml(text) {
-        return text
+        return String(text ?? '')
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
     },
 };
