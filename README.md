@@ -6,7 +6,7 @@ Buka di desktop, tablet, atau mobile.
 
 ---
 
-![Status](https://img.shields.io/badge/status-v0.1.0-blue) ![Lisensi](https://img.shields.io/badge/license-MIT-green) ![Dependensi](https://img.shields.io/badge/dependencies-0-brightgreen) ![Offline](https://img.shields.io/badge/offline-first-orange)
+![Status](https://img.shields.io/badge/status-v0.2.0-blue) ![Lisensi](https://img.shields.io/badge/license-MIT-green) ![Dependensi](https://img.shields.io/badge/dependencies-0-brightgreen) ![Offline](https://img.shields.io/badge/offline-first-orange)
 
 ---
 
