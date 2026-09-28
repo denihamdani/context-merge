@@ -199,7 +199,10 @@ CS.App = {
             document.getElementById('file-import').click();
         });
         document.getElementById('btn-shortcuts').addEventListener('click', function () {
-            CS.ModalUI.showModal('modal-shortcuts');
+            CS.ModalUI.openHelp('shortcuts');
+        });
+        document.getElementById('btn-guide').addEventListener('click', function () {
+            CS.ModalUI.openHelp('guide');
         });
 
         // File input

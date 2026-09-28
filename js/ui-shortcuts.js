@@ -151,7 +151,14 @@ CS.ShortcutsUI = {
         // Ctrl+/: Shortcuts help
         if (ctrl && key === '/') {
             e.preventDefault();
-            CS.ModalUI.showModal('modal-shortcuts');
+            CS.ModalUI.openHelp('shortcuts');
+            return;
+        }
+
+        // ✅ TAMBAH — Alt+H: Panduan
+        if (alt && !shift && key.toLowerCase() === 'h') {
+            e.preventDefault();
+            CS.ModalUI.openHelp('guide');
             return;
         }
 

@@ -67,6 +67,7 @@ CS.ModalUI = {
     currentId: null,
     deleteCallback: null,
     pendingImportData: null,
+    currentHelpTab: 'shortcuts',
 
     // Focus management
     _lastFocused: null,
@@ -76,6 +77,56 @@ CS.ModalUI = {
 
     init() {
         this.bindEvents();
+        this.initHelpTabs();
+    },
+
+    initHelpTabs() {
+        var tabBtns = document.querySelectorAll('.modal-tab-btn');
+        var self = this;
+
+        tabBtns.forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                self.switchHelpTab(btn.dataset.helpTab);
+            });
+
+            // Keyboard navigation between tabs
+            btn.addEventListener('keydown', function (e) {
+                if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+                e.preventDefault();
+                var all = Array.from(tabBtns);
+                var idx = all.indexOf(btn);
+                var dir = e.key === 'ArrowRight' ? 1 : -1;
+                var next = all[(idx + dir + all.length) % all.length];
+                next.focus();
+                self.switchHelpTab(next.dataset.helpTab);
+            });
+        });
+    },
+
+    switchHelpTab(tabName) {
+        this.currentHelpTab = tabName;
+
+        // Update tab buttons
+        document.querySelectorAll('.modal-tab-btn').forEach(function (btn) {
+            var isActive = btn.dataset.helpTab === tabName;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-selected', String(isActive));
+        });
+
+        // Update tab panels
+        document.getElementById('help-panel-shortcuts').classList.toggle('active', tabName === 'shortcuts');
+        document.getElementById('help-panel-shortcuts').hidden = tabName !== 'shortcuts';
+        document.getElementById('help-panel-guide').classList.toggle('active', tabName === 'guide');
+        document.getElementById('help-panel-guide').hidden = tabName !== 'guide';
+
+        // Update title
+        document.getElementById('modal-help-title').textContent =
+            tabName === 'shortcuts' ? '⌨️ Keyboard Shortcuts' : '📖 Panduan Aplikasi';
+    },
+
+    openHelp(tabName) {
+        this.showModal('modal-shortcuts');
+        this.switchHelpTab(tabName || 'shortcuts');
     },
 
     bindEvents() {
